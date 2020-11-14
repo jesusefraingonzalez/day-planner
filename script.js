@@ -6,12 +6,13 @@ currentDay.text(now.format('dddd , DD  MMMM YYYY'));
 
 //dynamically create time-blocks
 //start time set to 9AM, end time at 5 pm
-var startTime = dayjs().set('hour', 1).set('minute', 00).set('seconds', 00);
+var startTime = dayjs().set('hour', 9).set('minute', 00).set('seconds', 00);
 var endTime = dayjs().set('hour', 17).set('minute', 00).set('seconds', 00);
+var list = $('#list');
 
 while (startTime.isBefore(endTime)) {
-    var list = $('#list');
-    var listEl = $('<li>').addClass('time-block row');
+    
+    var listEl = $('<li>').addClass('time-block row').attr('data-time', startTime.format('h A'));
     var timeEl = $('<div>').addClass('hour').html(startTime.format('h A'));
     var inputArea = $('<textarea>');
     var saveButton = $('<input>').addClass('saveBtn').attr('type', 'button').attr('value', 'Save');
@@ -24,8 +25,8 @@ while (startTime.isBefore(endTime)) {
     }
     else inputArea.addClass('future');
 
-    console.log('start ' + startTime.get('h'));
-    console.log('now ' + now.get('h'));
+    // console.log('start ' + startTime.get('h'));
+    // console.log('now ' + now.get('h'));
     listEl.append(timeEl);
     listEl.append(inputArea);
     listEl.append(saveButton);
@@ -34,11 +35,19 @@ while (startTime.isBefore(endTime)) {
     startTime = startTime.add(1, 'hour');
 }
 //add functionality for saving text in todo area
-//key = time of time block , value = textarea content
-var saveBtn = $(".saveBtn");
-saveBtn.on('click', function (event) {
+// click event for save button stores a time key and textarea value
+$('li').on('click', function (event) {
     event.preventDefault();
-    var userText = $('textarea').val();
-    localStorage.setItem('efrain', userText);
+    var userText = $(this).children('textarea').val();
+    var thisTime = $(this).attr('data-time');
+    localStorage.setItem(thisTime, userText);
 });
 
+// make sure time is saved on the page after refresh
+$('li').each(function(index , item){
+    console.log($(this).attr('data-time'));
+    console.log(item);
+    var task = localStorage.getItem($(this).attr('data-time'));
+    console.log(task);
+    $(this).children('textarea').val(task);
+});
