@@ -68,13 +68,13 @@ textarea{
   min-width: 100px;
 }
 
-.saveBtn i:hover {
+.saveBtn:hover {
   font-size: 20px;
   transition: all .3s ease-in-out;
+
 }
 
 .container{
   width: 75%;
   margin: auto;
-  background-color: lightcyan;
 }
