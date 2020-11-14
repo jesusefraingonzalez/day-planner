@@ -18,12 +18,8 @@ while (currentTime.isBefore(endTime)) {
     var saveButton = $('<input>').addClass('saveBtn').attr('type', 'button').attr('value', 'Save');
 
     //check time block time against now for color change functionality
-    if (currentTime.get('h') === now.get('h')) {
-        inputArea.addClass('present');
-    }
-    else if (currentTime.get('h') < now.get('h')) {
-        inputArea.addClass('past');
-    }
+    if (currentTime.get('h') === now.get('h')) inputArea.addClass('present');
+    else if (currentTime.get('h') < now.get('h')) inputArea.addClass('past');
     else inputArea.addClass('future');
 
     //append elements to corresponding parents
@@ -35,6 +31,7 @@ while (currentTime.isBefore(endTime)) {
     //increment start time to get to end of the day 
     currentTime = currentTime.add(1, 'hour');
 }
+
 //add functionality for saving text in todo area
 // click event for save button stores a time key and textarea value
 $('li').on('click', function (event) {
@@ -45,7 +42,7 @@ $('li').on('click', function (event) {
 });
 
 // make sure tasks are saved on the page after refresh
-$('li').each(function(){
+$('li').each(function () {
     var task = localStorage.getItem($(this).attr('data-time'));
     console.log(task);
     $(this).children('textarea').val(task);
